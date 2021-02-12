@@ -1,5 +1,5 @@
 local internet = require("internet")
-local h = internet.open("localhost", 42069)
+local h = internet.open("127.0.0.1", 42069)
 
 
 while true do

@@ -6,9 +6,9 @@ import threading
 import socket
 
 import time
-"""
-##### discord stuff #####
 
+##### discord stuff #####
+"""
 with open("./configs/discord_conf.json") as discord_conf:
     token = json.load(discord_conf)["token"]
 
@@ -18,7 +18,7 @@ bot = commands.Bot(command_prefix=";")
 ##### scoket stuff #####
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(("0.0.0.0", 42069))
+s.bind(("127.0.0.1", 42069))
 s.listen(5)
 clientsocket, address = s.accept()
 
@@ -30,10 +30,13 @@ def background():
 
 def foreground():
     global clientsocket, address
-    clientsocket.send(bytes(' '.join(input())[1:] + '\r\n', encoding="utf-8"))
+    while True:
+        time.sleep(2)
+        print("sending")
+        clientsocket.send(bytes("Test", encoding="utf-8"))
 
-    recv_data = str(clientsocket.recv(1024), encoding='utf-8')
-    
+    #recv_data = str(clientsocket.recv(1024), encoding='utf-8')
+
     """
     @bot.event
     async def on_ready():
@@ -42,10 +45,10 @@ def foreground():
 
 
 bg = threading.Thread(name='background', target=background)
-time.sleep(2)
 fg = threading.Thread(name='foreground', target=foreground)
 
 bg.start()
 fg.start()
-
-#bot.run(token)
+"""
+bot.run(token)
+"""
